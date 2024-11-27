@@ -1,0 +1,45 @@
+/*1.Hər bir işçinin adını, 
+soyadını,vəzifəsinin adını ( jobs cədvəlində job_title) tapan sorğu yazın.*/
+select  e.first_name,e.last_name,j.job_title
+from hr.employees e
+join hr.jobs j on e.job_id =j.job_id
+/*2.Hər bir işçinin adını, maaşını, və öz vəzifəsi üzrə maksimum maaşını*/
+select  e.first_name,e.salary,j.max_Salary
+from hr.employees e
+join hr.jobs j on e.job_id =j.job_id
+
+/*3.Hər bir işşinin adını,vəzifəsinin adını, departamentinin adını tapan sql
+sorğusu yazın.*/
+select e.first_name,j.job_title,d.department_name
+from hr.employees  e 
+left join jobs j on e.job_id =j.job_id 
+left join departments d on d.department_id =e.department_id;
+
+/*4.Adında və ya işlədiyi departamentin adında a hərfi olan işçiləri tapın.*/
+select e.first_name
+from hr.employees e
+left join hr.departments d on e.department_id = d.department_id
+where e.first_name like '%a%' or d.department_name like '%a%';
+
+
+select user
+from dual;
+
+/*5. Adı U hərfi ilə başlayan ölkələrdə yerləşən departmentləri tapan sorğu yazın.*/
+select *
+from hr.departments d
+join hr.locations l on d.location_id = l.location_id
+join hr.countries c on c.country_id = l.country_id
+where c.country_name like 'U%';
+
+select *
+from hr.departments d
+join hr.locations l on d.location_id = l.location_id
+join hr.countries c on c.country_id = l.country_id and c.country_name like 'U%';
+
+/*6.Heç bir işçisi olmayan departmentlərin adını, yerləşdiyi şəhəri tapan sorğu yazın.*/
+select d.department_id,l.city
+from hr.departments d 
+left join employees e on d.department_id = e.department_id
+join hr.locations l on d.location_id = l.location_id
+where e.employee_id is null;

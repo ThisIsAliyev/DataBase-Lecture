@@ -1,0 +1,40 @@
+--group functions :min,max,sum,avg,count,listagg
+select count(employee_id),count(manager_id)
+from hr.employees;
+
+select count(*)
+from hr.employees
+where manager_id is null;
+
+
+select count(first_name),count(hire_Date)
+from hr.employees;
+
+----max  min 
+select max(salary),max(hire_date),max(first_name)
+from hr.employees;
+
+select min(salary),min(hire_date),min(first_name)
+from hr.employees;
+
+--sum
+select sum(salary)
+from hr.employees;
+
+--avg
+
+select avg(salary)
+from hr.employees;
+
+select sum(salary),department_id,manager_id
+from hr.employees
+group by department_id,manager_id
+
+select sum(salary)
+from hr.employees
+group by department_id,manager_id
+
+--Her job_id uzre ortalama maashi tapin
+select job_id,avg(salary)
+from hr.employees 
+group by job_id ;

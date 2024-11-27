@@ -1,0 +1,56 @@
+Task 1
+Departments cədvəlində olan bütün sətirləri və sütunları çıxaran sorğu yazın.
+Task 2
+Employees cədvəlindən ilk üç sütunu çıxaran sorğu yazın.
+Task 3
+Employees cədvəlindən ad və soyadı (first_name və last_name sütunlarını) aralarında boşluq olmaqla
+birləşdirib çıxarın.Nəticədə sütun başlığı Full_name şəklində olsun.
+Task 4
+Employees cədvəlindən hər bir əməkdaşın ad və soyadını aşağıdakı nümunəyə uyğun şəkildə
+çıxaran sql yazın.
+Steven 's hire_date is 17-JUN-03
+Neena's hire_date is 21-SEP-05
+Task 5
+Employees cədvəlindən işə girmə tarixinin ( hire_date sütunu) bütün müxtəlif qiymətlərini çıxarın.
+
+
+
+
+
+**Task 1:**
+```sql
+SELECT *
+FROM departments;
+```
+
+---
+
+**Task 2:**
+```sql
+SELECT employee_id, first_name, last_name
+FROM employees;
+```
+
+---
+
+**Task 3:**
+```sql
+SELECT CONCAT(first_name, ' ', last_name) AS Full_name
+FROM employees;
+```
+
+---
+
+**Task 4:**
+```sql
+SELECT CONCAT(first_name, '''s hire_date is ', TO_CHAR(hire_date, 'DD-MON-YY')) AS Hire_Info
+FROM employees;
+```
+
+---
+
+**Task 5:**
+```sql
+SELECT DISTINCT hire_date
+FROM employees;
+``` 

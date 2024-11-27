@@ -1,0 +1,62 @@
+/*1.Hər bir işçinin adını, soyadını,vəzifəsinin adını 
+( jobs cədvəlində job_title) tapan sorğu yazın.*/
+select e.first_name,e.last_name,j.job_title
+from hr.employees e
+join hr.jobs j on e.job_id = j.job_id;
+
+/*2.Hər bir işçinin adını, maaşını, və öz vəzifəsi üzrə maksimum maaşını
+(jobs cədvəlində max_salary) tapan sorğu yazın.*/
+select e.first_name,e.salary, j.max_salary
+from hr.employees e 
+left join hr.jobs j on e.job_id = j.job_id;
+
+/*3.Hər bir işşinin adını,vəzifəsinin adını, departamentinin adını tapan sql
+sorğusu yazın.*/
+select e.first_name,j.job_title, d.department_name
+from hr.employees e 
+left join hr.departments d on e.department_id = d.department_id
+left join hr.jobs j on j.job_id = e.job_id;
+
+/*4.Adında və ya işlədiyi departamentin adında a hərfi olan işçiləri tapın.*/
+select *
+from hr.employees e
+left join hr.departments d on e.department_id = d.department_id 
+where  lower(department_name) like '%a%' or lower(first_name) like '%a%';
+
+/*5. Adı U hərfi ilə başlayan ölkələrdə yerləşən departmentləri tapan sorğu yazın.*/
+select d.department_name
+from hr.departments d 
+inner join hr.locations l on d.location_id = l.location_id 
+inner join hr.countries c on c.country_id = l.country_id
+where c.country_name like 'U%';
+/*6.Heç bir işçisi olmayan departmentlərin adını, yerləşdiyi şəhəri tapan sorğu yazın.*/
+select *
+from hr.departments d 
+left join hr.employees e on e.department_id=d.department_id
+where e.employee_id is null;
+
+/*7.Hər bir işçinin adını, soyadını, vəzifəsinin adını, maaşını, 
+maaşı ilə öz vəzifəsi üzrə minimum maaşın
+fərqini tapın.*/
+select e.first_name,e.last_name,j.job_title, e.salary, e.salary - j.min_salary
+from hr.employees e 
+join hr.jobs j on e.job_id = j.job_id 
+
+
+
+/*8.Hər bir işçinin adını, soyadını, maaşını, menecerinin adını, menecerenin 
+maaşını tapan sorğu yazın.*/
+select e.first_name,e.last_name,e.salary,m.first_name,m.salary
+from hr.employees e
+join hr.employees m on e.manager_id = m.employee_id
+/*9.İşçilərin adını, soyadını. vəzifəsinin adını, departamentinin adını,menecerinin adını, departmentin
+yerləşdiyi küçənin adını,şəhərin adı, ölkənin,regionun adını tapan sorğu yazın.*/
+select e.first_name,e.last_name,j.job_title,d.department_name ,
+       e1.first_name as manager_name,
+       l.street_address,l.city,c.country_name
+from hr.employees e
+left join hr.jobs j on e.job_id=j.job_id
+left join hr.departments d on d.department_id = e.department_id 
+left join hr.employees e1 on e.manager_id = e1.employee_id
+left join hr.locations l on l.location_id = d.location_id
+left join hr.countries c on c.country_id = l.country_id

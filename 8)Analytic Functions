@@ -1,0 +1,113 @@
+/*1.Hər bir işçinin ad, soyad, maaşını və 4-cü sütunda öz maaşına görə (row_number, rank və
+dense_rank) sırasını çıxarın.*/
+select first_name,last_name,salary,
+       row_number() over(order by salary),
+       rank() over(order by salary),
+       dense_rank() over(order by salary)
+from hr.employees;
+       
+
+/*2.Hər bir işçinin ad, soyad, maaşını və 4-cü sütunda öz departamenti üzrə maaşına görə
+reytinqini çıxarın (eyni maaşlar eyni nömrə, boş nömrələr qalmamaqla).*/
+select first_name,last_name,salary,
+       dense_rank() over(partition by department_id order by salary desc)
+from hr.employees;
+/*3.Hər bir işçinin ad, soyadı, departament_name-i və 4-cü sütunda öz departamenti üzrə cəm
+maaşı çıxarın.*/
+select first_name,last_name,department_name,
+      sum(salary) over(partition by e.department_id)
+from hr.employees e 
+join hr.departments d on e.department_id = d.department_id;
+/*4.Hər bir işçinin ad, soyadı, job_id-sini və 4-cü sütunda öz jobu üzrə maximum və minimum
+maaşların fərqini çıxarın.*/
+select first_name,last_name,
+       job_id,
+       max(salary) over(partition by job_id)-min(salary) over(partition by job_id)
+from hr.employees;
+/*5.Max maaş alan işçinin ad, soyad və maaşını çıxarın.*/
+select *
+from hr.employees
+where salary =
+(select max(salary)
+ from hr.employees);
+ 
+select first_name,last_name,salary from (
+select first_name,last_name,salary,
+       dense_rank() over(order by salary desc) as dr
+from hr.employees)
+where dr=1;
+
+select first_name,last_name, salary from (
+select first_name,last_name, salary,
+    max(salary) over() as max_salary
+from hr.employees) 
+where salary = max_salary;
+
+select first_name,last_name,salary
+from hr.employees 
+order by salary desc
+fetch next 1 rows with ties;
+/*6.Hər departament üzrə Max maaş alan işçinin ad, soyad, department_id və maaşını çıxarın.*/
+select first_name,last_name, salary from (
+select first_name,last_name, salary,
+    max(salary) over(partition by department_id) as max_salary
+from hr.employees) 
+where salary = max_salary;
+
+
+select first_name,last_name,salary from (
+select first_name,last_name,salary,
+       dense_rank() over(partition by department_id order by salary desc) as dr
+from hr.employees)
+where dr=1;
+
+select *
+from hr.employees e
+where salary =
+(select max(salary)
+ from hr.employees e1
+ where e.department_id = e1.department_id );
+
+
+
+
+
+/*7.Commisson-u NULL olan işçilərdən, maaşının azalma 
+sırasına görə 10-cu olan işçini (işçiləri)
+çıxarın. (dense_rank)*/
+select * from (
+select first_name,last_name,dense_rank() over(order by salary desc) as dr
+from hr.employees 
+where commission_pct is null)
+where dr=10;
+/*8.Employees cədvəlindən 5-ci minimal maaş alan işçi məlumatlarını çıxarın.(eyni maaş ilə
+birdən artıq işçı varsa hamısı çıxsın)*/
+select * from (
+select first_name,last_name,salary, dense_rank() over(order by salary) as dr
+from hr.employees)
+where dr=5;
+
+
+/*9.Hər bir işçinin qarşısında həmin işçinin həmin ildə işə girən neçənci işçi olduğunu
+çıxaran SQL yazın*/
+
+select first_name,last_name,salary, extract(year from hire_Date), hire_Date,
+dense_rank() over(partition by extract(year from hire_Date)
+order by hire_date) as dr
+from hr.employees;
+
+
+
+/*10.Hər bir işçinin qarşısında həmin işçinin əmək haqqı ilə, özündən (işə girmə tarixinə
+görə sıralanmada) 2 əvvəl və 3 sonra gələn işçilər üzrə əmək haqqının orta qiymətinin
+fərqini tapan SQL yazın.*/
+select first_name,last_name, salary,hire_date,
+       sum(salary) over(order by hire_date rows between 2 preceding and 
+     3 following)
+from hr.employees;
+        
+/*11.Hər bir işçinin qarşısında öz maaşından kiçik neçə fərqli maaş olduğunu çıxaran SQL
+yazın.*/
+select first_name,last_name,salary,
+       dense_rank() over(order by salary asc)-1
+from hr.employees;

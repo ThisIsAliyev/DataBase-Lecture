@@ -1,0 +1,76 @@
+/*1.Employees cədvəlindən işə girdiyi il tək ədəd olan işçiləri tapan sorğu yazın. 
+(Məsələn 2003).*/
+select *
+from hr.employees 
+where mod(extract(year from hire_date),2)=1;
+/*2. Employees cədvəlindən hər bir işçinin adını, soyadını,işə girdiyi ayın adını tapan 
+sorğu yazın.*/
+select first_name,last_name,to_char(hire_date,'Month') as hired_month
+from hr.employees;
+/*3. Dual cədvəldən istifadə edərək cari 
+günün həftənin hansı günü olduğunu tapan sorğu yazın.*/
+select to_char(sysdate,'day') as day_of_week
+from dual;
+/*4. Job_history cədvəlindən istifadə edərək start_date və end_date 
+arasında ay fərqini tapan sorğu yazın.*/
+select trunc(months_between(end_date,start_date))
+from hr.job_history;
+/*5. Dual cədvəldən istifadə edərək 5,7,11,2,12,24,32,4 
+ədədlərindən ən böyüyü ilə ən kiçiyinin cəmini
+tapan sorğu yazın.*/
+select greatest(5,7,11,2,12,24,32,4)+least(5,7,11,2,12,24,32,4)
+from dual;
+/*6. Departments cədvəlində hər bir 
+departmentin adını və manger_id-si boş olmayan departmentlərin qarşısına manager_id-ni 
+boş olanlara isə no_manager sözü yazılan manager_flag  sütununu gətirən sorğu yazın.*/
+select department_id,nvl(to_char(manager_id),'No manager') as manager_flag
+from hr.departments;
+/*7. Employees cədvəlindən mart, sentyabr və 
+iyun ayında işə girən işçiləri tapan sorğu yazın.*/
+select *
+from hr.employees 
+where extract(month from hire_date) in (3,6,9);
+/*8. Employees cədvəlindən 2003cu ildən əvvəl işə qəbul olunan və ya Yanvar ayında işə qəbul 
+olunub salary-si 8000-dən böyük olan işçıləri çıxarın.*/
+select *
+from hr.employees 
+where to_char(hire_Date,'yyyy')< 2003 or to_char(hire_date,'mm')='01'
+and salary >8000;
+/*9. Employees cədvəlindən ayın son günü işə girən işçiləri tapan sorğu yazın.*/
+select first_name,last_name,hire_date
+from hr.employees 
+where hire_Date=last_Day(hire_date);
+/*10. Hər bir işçinin işə girdiyi gündən sonrakı ilk bazar gününün tarixini 
+tapan sorğu yazın.*/
+select next_day(hire_date,7)
+from hr.employees;
+/*11. Employees cədvəlindən hər bir işçinin işə girmə tarixini 
+il –ayın bütöv adı – gün formatına uyğun çıxaran sorğu yazın.*/
+select to_char(hire_date,'yyyy-fmMonth-dd')
+from hr.employees;
+//*12. Ya ayın 2-ci yarısı ya da ilin 2-ci yarısı işə girən işçiləri tapan sorğu yazın.*/
+select *
+from hr.employees 
+where extract(day from hire_date)>15 or extract(year from hire_date)>6;
+/*13. Hər bir işçinin işə girdiyi tarixin ilin neçənci rübü olduğunu tapan sorğu yazın.
+Yanvar, fevral, mart – 1-ci rüb,
+Aprel, may, iyun – 2-ci rüb
+İyul, avqust, sentyabr – 3-cü rüb
+Oktyabr,noyabr,dekabr- 4-cü rüb.*/
+select first_name,last_name,
+        case when extract(month from hire_Date) in ( 1,2,3) then '1-ci'
+             when extract(month from hire_Date) in ( 4,5,6) then '2-ci'
+             when extract(month from hire_Date) in ( 7,8,9) then '3-cu'
+             else '4-cu' end as rub
+from hr.employees;
+              
+/*14. Hər bir işçinin ödədiyi commission məbləğini tapın.Commission olmayan işçilərdə məbləğ 0
+göstərilsin.*/
+select employee_id,first_name,last_name, salary*nvl(commission_pct,0) as commission_amount
+from hr.employees;
+/*15.Adının ilk 3 hərfindən biri a (böyük və ya kiçik) olan işçilərin ad və soyadını boşluqla birləşmiş şəkildə
+çıxarın.*/
+select first_name || ' ' || last_name as full_name
+from hr.employees 
+where lower(substr(first_name,1,3)) like '%a%';
+--substr(first_name,1,3) like '%a%'  or substr(first_name,1,3) like '%A%'

@@ -1,0 +1,188 @@
+/*Task 1
+Employees cədvəlindən manager_id-si 120-dən böyük və ya department_id-si 100-dən kiçik olan işçilərin
+ad (first_name sütunu), soyad (last_name sütunu) və maaş (salary) məlumatlarını 
+çıxaran sorğu yazın.*/
+select first_name,last_name,salary
+from hr.employees
+where manager_id > 120 or department_id < 100;
+
+/*Task 2
+Employees cədvəlindən manager_id sütunu boş olan sətirləri çıxaran sorğu yazın.*/
+select *
+from hr.employees
+where manager_id is null;
+
+/*Task 3
+Locations cədvəlindən şəhər adı (city sütunu) S hərfi ilə başlayan ünvanların 
+küçə adı (stretet_address)
+və şəhər adını birləşdirib Adress_info başlığı ilə çıxaran sorğu yazın.*/
+
+select street_address || ' ' || city as adress_info
+from hr.locations 
+where street_address like 'S%';
+
+/*Task 4
+Employees cədvəlindən department_id-si manager_id-sinin yarısından böyük olan işçilərin məlumatlarını
+maaşa görə ( salary sütunu) azdan çoxa sıralanmış şəkildə çıxarın.*/
+select *
+from hr.employees
+where department_id > manager_id /2 
+order by salary  asc;
+
+
+
+/*Task 5
+Employees cədvəlindən maaşı 10000,8000,5000, 7000-dən biri olan işçilərin ad və soyad məlumatlarını
+çıxaran sorğu yazın.*/
+select *
+from hr.employees 
+where salary in (10000,5000,8000,7000);
+
+/*Task 6
+Employees cədvəlindən istifadə edərək 60-cı department-də 
+adı A və ya K hərfi ilə başlayan işçilərin
+məlumatlarını çıxaran sorğu yazın.*/
+select *
+from hr.employees 
+where department_id =60 and (first_name like 'A%' or first_name like 'K%');
+
+/*Task 7
+Departments cədvəlindən manager_id sütunu boş olmayan sətirləri çıxaran sorğu yazın.*/
+
+select *
+from hr.departments 
+where manager_id is not null;
+
+/*Task 8
+Employees cədvəlindən manager_id sütunu 
+100 və 110 arasında və adı (first_name) sütunu J ilə
+başlamayan işçilərin employee_id, first_name, last_name və manager_id sütunlarını 
+çıxaran sorğu yazın.*/
+
+select employee_id,first_name,last_name,manager_id
+from hr.employees 
+where manager_id >= 100 and manager_id <= 110 
+and first_name not like 'J%';
+
+/*Task 9
+Employees cədvəlindən 7000-dən 
+çox maaş alan işçiləri ada görə əlifba sırası ilə sıralanmış şəkildə
+çıxarın.Bu zaman eyni adlı işçilər öz arasında soyada görə sıralansın.*/
+select *
+from hr.employees 
+where salary >7000 
+order by first_name asc,last_name asc;
+
+/*Task 10
+Departments cədvəlindən adının üçüncü 
+hərfi r hərfi olan department adlarını tapan sorğu yazın.*/
+
+
+select *
+from hr.departments 
+where department_name like '__r%';
+
+/*Task 11
+Employees cədvəlindən ən az maaş alan 
+ilk 5 işçinin adlari və maaşlarını çıxaran sql yazın.*/
+
+select *
+from hr.employees 
+order by salary 
+fetch next 5 rows only;
+
+
+/*Regions cədvəlindən region_name 
+sütununda probel(boşluq) olmayan və region_id 2-dən
+böyük bərabər olan sətirləri çıxaran sql yazın.*/
+
+select *
+from hr.regions 
+where region_id>=2 and region_name not like '% %';
+
+/*Task 13
+Jobs cədvəlindən MIN_SALARY və MAX_SALARY fərqi 10000-dən çox olan sətirləri çıxaran SQL*/
+select *
+from hr.jobs
+where max_salary-min_salary>10000;
+
+/*Task 14
+Countries cədvəlindən REGION_ID-si 2, 4 olmayan sətirləri çıxaran SQl yazın.*/
+select *
+from hr.countries 
+where region_id not in (2,4);
+
+select *
+from hr.countries 
+where region_id !=2 and region_id!=4;
+
+/*Task 15
+Employees cədvəlində commission_pct sütununa görə sıralama edin, null qiymətlər əvvəl*/
+
+select *
+from hr.employees 
+order by commission_pct desc;
+
+
+select *
+from hr.employees 
+order by commission_pct asc nulls  first;
+
+/*Task 16
+Employees cədvəlində first_name, last_name və 12*salary məlumatlar çıxsın, 3-cü sütuna
+görə sıralanma olsun (kiçik qiymət sonda)*/
+
+select first_name,last_name,12*salary
+from hr.employees 
+order by 3 desc;
+select first_name,last_name,12*salary
+from hr.employees 
+order by 12*salary desc;
+
+select first_name,last_name,12*salary as illik
+from hr.employees 
+order by illik desc;
+
+select first_name,last_name,12*salary as illik
+from hr.employees 
+order by salary desc;
+/*Task 17
+Employees cədvəlindən adında qoşa e 
+hərfi olan işçi(lər)nin məlumatlarını çıxaran sorğu yazın.*/
+
+select *
+from hr.employees 
+where first_name like '%ee%';
+
+/*Task 18
+Employees cədvəlindən maaşı 10000 və 
+18000 arasında olan işçilərin məlumatlarını çıxaran sorğu yazın.
+(2 üsulla)*/
+select *
+from hr.employees 
+where salary >= 10000 and salary <=18000;
+
+select *
+from hr.employees 
+where salary between 10000 and 18000;
+
+
+/*Task 19
+Employees cədvəlindən ya maaşı 
+15000-dən çox olan ya da adı A hərfi ilə başlayan işçilərin
+məlumatıarını çıxaran sorğu yazın.*/
+
+select *
+from hr.employees 
+where salary > 15000 
+or first_name like 'A%';
+
+/*Task 20
+Employees cədvəlindən comission_pct-si olmayan həm də işə girmə tarixi 18-MAY-2003-dən sonra olan
+işçilərin ad, soyad və işə girmə 
+tarixi (hire_Date sütunu) məlumatlarını gətirən sorğu yazın.*/
+
+select first_name,last_name,hire_Date
+from hr.employees 
+where commission_pct is null 
+and hire_date > '18.05.03'

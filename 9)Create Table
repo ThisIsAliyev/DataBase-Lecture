@@ -1,0 +1,336 @@
+--create table 
+ddl create ,alter,drop,truncate 
+dml : insert, update, delete
+tcl commit rollback
+dql : select
+
+create table table_name (
+column_name data_type,
+column_name data_type,
+.................
+column_name data_type)
+
+Naming rules:
+1) herfle bashlamalidir 
+2) 30 simvol 
+3)  reserved word olmamalidir 
+
+create table test_1
+(id number)
+
+emp_id, first_name,last_name, bday
+
+create table test_3
+(emp_id number,
+ first_name varchar2(30),
+ last_name varchar2(30),
+ bday date )
+
+select *
+from test_3;
+
+--insert 
+--syntax
+insert into table_name(column_list)
+values (values_list)
+
+insert into test_3(emp_id,first_name,last_name,bday)
+values(1,'Davud','Vahidov','17.12.2000')
+
+
+insert into test_3
+values(2,'Eltun','Aslanov','16.12.2001')
+
+insert into test_3
+values('Eltun','Aslanov','16.12.2001')
+
+insert into test_3(emp_id,first_name,last_name)
+values(2,'Eltun','Aslanov','16.12.2001')
+
+insert into test_3(emp_id,first_name,last_name)
+values(3,'Elshan','Mursalov')
+
+select *
+from test_3;
+
+--syntax
+update table_name
+set col_name=value,
+    col_name =value
+[where ..] --optional 
+
+update test_3
+set bday='18.12.03'
+where emp_id=3;
+
+select *
+from test_3;
+
+update test_3
+set bday='19.12.03'
+where first_name like 'E%';
+
+update test_3
+set first_name='Qadim',
+    last_name='Qadim'
+where emp_id=3;
+
+select *
+from test_3;
+
+update test_3
+set bday=bday+10
+where emp_id=3;
+
+update test_3
+set bday='20.12.2024'
+
+--correlated
+--delete 
+delete [from] table_name
+[where]
+
+delete test_3
+where emp_id=3;
+
+select *
+from test_3;
+
+delete test_3
+
+
+--default option 
+
+create table sales
+(id number,
+ product_id number,
+ sales_date date default sysdate)
+ 
+insert into sales(id,product_id)
+values(1,1)
+
+select *
+from sales;
+
+insert into sales(id,product_id,sales_date)
+values(1,1,sysdate+10)
+
+--add column 
+alter table table_name add  col_name col_type
+
+alter table sales add  amount number
+alter table sales add  amount1 number default 0
+alter table sales modify amount default 2  --default qiymetin deyishdirilmesi
+alter table sales modify id varchar2(20) -- tipin deyishdirilmesi
+alter table sales modify amount varchar2(4)
+alter table sales modify amount varchar2(5)
+alter table sales modify amount varchar2(3)
+
+drop table table_name;
+
+drop table sales;
+
+select *
+from sales;
+
+insert into sales(amount)
+values ('fggg')
+
+--with 
+
+with employees  as
+(select * 
+ from hr.departments)
+select *
+from employees;
+
+ with t as (
+select e.*,dense_rank() over(order by salary desc) as dr 
+    from hr.employees e),
+    t1 as (
+    select *
+    from t
+    where first_name like 'A%')
+select *
+from t
+where dr=5;
+
+---constraints :primary key, unique,check, not null, foreign key 
+--primary key  : unikal olur + bosh ola bilmez
+select *
+from employees;
+
+create table test_4
+(id number primary key,
+ first_name varchar2(20))
+ 
+ create table test_5
+(id number constraint pkq primary key,
+ first_name varchar2(20))
+ 
+insert into test_5
+values(1,'Davud')
+
+insert into test_5
+values(1,'Elnaz')
+
+select *
+from user_constraints
+
+insert into test_5(first_name)
+values('Elnaz')
+
+
+create table test_6
+(id number primary key,
+ first_name varchar2(20) primary key,
+ last_name varchar2(20))
+
+--composite primary key
+
+
+--unique 
+create table test_7
+(id number unique,
+ first_name varchar2(20) ,
+ last_name varchar2(20))
+
+insert into test_7(id,first_name,last_name)
+values (1,'Elshan','Mursalov')
+
+insert into test_7(id,first_name,last_name)
+values (1,'Eltun','Aslanov')
+
+insert into test_7(id,first_name,last_name)
+values (null,'Eltun','Aslanov')
+
+select *
+from test_7;
+
+
+create table test_8
+(id number unique,
+ first_name varchar2(20) unique ,
+ last_name varchar2(20))
+
+
+--not null
+create table test_9
+(id number ,
+ first_name varchar2(20) not null,
+ last_name varchar2(20))
+ 
+insert into test_9(id,last_name)
+values(1,'Alizada')
+
+primary key=not null+unique
+
+--check
+create table test_10
+(id number unique,
+ first_name varchar2(20) ,
+ last_name varchar2(20),
+ salary number check(salary>0))
+
+
+create table test_11
+(id number unique,
+ first_name varchar2(20) ,
+ last_name varchar2(20),
+ salary number,
+  fee number,
+  constraint ck1 check(salary > fee))
+  
+--foreign key relationship 
+select *
+from hr.departments;
+
+select *
+from hr.employees;
+
+create table test_dept11
+(id number primary key,
+ dept_name varchar2(20))
+ 
+create table test_emp11
+(id number,
+ first_name varchar2(20),
+ dept_id number references test_dept11(id))
+ 
+ 
+ create table test_dept12
+(id number ,
+ dept_name varchar2(20))
+ 
+create table test_emp12
+(id number,
+ first_name varchar2(20),
+ dept_id number references test_dept12(id))
+ 
+ 
+select *
+from test_dept11;
+
+select *
+from test_emp11;
+
+insert into test_emp11
+values (1,'Fidan',1)  --error
+
+insert into test_dept11
+values (1,'IT')
+
+insert into test_emp11
+values (1,'Fidan',1) 
+
+
+delete from test_dept11
+where id=1
+
+child records found
+
+drop table test_dept11;
+
+--deleting rules 
+no action
+on delete cascade 
+on delete set null
+
+
+ 
+ select *
+ from user_constraints;
+ 
+drop table test_dept13;
+create table test_dept13
+(id number primary key,
+ dept_name varchar2(20))
+ 
+create table test_emp13
+(id number,
+ first_name varchar2(20),
+ dept_id number references test_dept13(id) on delete cascade)
+
+
+  
+insert into test_dept13
+values (1,'IT')
+
+insert into test_emp13
+values (1,'Fidan',1) 
+
+select *
+from  test_dept13
+
+select *
+from test_emp13
+
+delete from test_dept13
+where id =1;
+
+
+drop table test_dept13 cascade constraints;
+
+select *
+from user_constraints
+where table_name='TEST_EMP13';

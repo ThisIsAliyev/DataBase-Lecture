@@ -1,0 +1,424 @@
+Simvol tipinə tətbiq olunan funksiyalar
+1.lower(text_argument) – mətn tipli arqumentin bütün simvollarını kiçildir.
+Nümunə:
+ select lower(‘ORACLE’) from dual; >> oracle
+ select lower(‘Sql’) from dual; >> sql
+2.upper(text_argument) – mətn tipli arqumentin bütün simvollarını böyüdür.
+Nümunə:
+ select upper(‘oracle’) from dual; >> ORACLE
+ select upper(‘Sql’) from dual; >>SQL
+3.initcap(text_argument) – mətn tipli arqumentdə bütün sözlərin ilk hərflərini
+böyüdür, digər hərflərini isə kiçildir.
+Nümunə:
+ select initcap(‘ORACLE sql’) from dual; >> Oracle Sql
+4.length(text_argument) –mətn tipli arqumentin uzunluğunu qaytarır.
+Nümunə:
+ select length(‘oracle’) from dual; >> 6
+5.concat(text_argument_1, text_argument_2) – mətn tipli 2 arqument qəbul
+edir.Verilmiş arqument ləri birləşdirir.
+Nümunə:
+ select concat(‘oracle’,’sql’) from dual; >> oraclesql
+
+6.substr(text_argument,n,m) – mətn tipli arqumentin n-ci simvoldan başlayaraq m
+simvolunu qaytarır. m-in qiymətini qeyd etmədikdə mətnin sonuna kimi olan hissəni
+qaytarır. n arqument i mənfi olduqda substr funksiyası sondan saymağa başlayır.
+Nümunə:
+ select substr(‘oracle’,2,3) from dual; >> rac
+ select substr(‘oracle’,3) from dual; >> acle
+ select substr(‘oracle’,-4) from dual; >> acle
+ select substr(‘oracle’,-5,2) from dual; >> ra
+7. instr(text_argument,search_argument, n,m) – mətn tipli arqument -də n-ci
+simvoldan başlayaraq m-ci rast gəldiyi search_argumentin inkeksini qaytarır. n və m
+qeyd edilmdikdə, ilk simvoldan başlayaraq ilk rast gəldiyi indeksi qaytarır. n mənfi
+olduqda sonuncu simvoldan başlayaraq m-ci rast gəldiyi indeksi
+qaytarır.search_argument verilmiş text_Argument içərisində olmadıqda instr nəticə
+olaraq 0 qaytarır.
+Nümunə:
+ select instr(‘programming’,’g’,1,2) from dual; >> 11
+ select instr(‘programming’’m’,1,1) from dual; >> 7
+ select instr(‘programming’,’m’) from dual; >>7
+ select instr(‘programming’,’ing’,1,1) from dual; >> 9
+ select instr(‘programming’,’a’,-1,1) from dual; >>6
+ select instr(‘programming’,’u’) from dual; >> 0
+8.lpad(text_argument1, n,text_argument2) – mətn tipli text_argument1-I
+text_argument2-I soldan artırmaqla n simvol uzunluğuna tamamlayır. text_argument2
+qeyd edilmədikdə boşluq ilə tamamlayır.Əgər n mətnin ümumi uzunluğundan kiçik
+olarsa, lpad verilmiş mətnin ilk n sayda simvolunu qaytarır.
+Nümunə:
+
+ select lpad(‘oracle’,10,’*’) from dual; >> ****oracle
+ select lpad(‘oracle’,5) from dual; >> oracl
+9.rpad(text_argument1, n,text_argument2) – mətn tipli text_argument1-i
+text_argument2-ni sağdan artıqmaqla n simvol uzunluğuna tamamlayır.
+text_argument2 qeyd edilmədikdə boşluq ilə tamamlayır.Əgər n mətnin ümumi
+uzunluğundan kiçik olarsa, rpad verilmiş mətnin ilk n sayda simvolunu qaytarır.
+Nümunə:
+ select rpad(‘oracle’,10,’*’) from dual; >> oracle****
+ select rpad(‘oracle’,3) from dual; >> ora
+10.rtrim(text_argument1, text_argument2) – text_argument1-in sonundan
+text_argument2-ni silir.Text_argument2 qeyd edilmədikdə sondakı boşluqları silir.
+Nümunə:
+ select rtrim(‘oracle’,’e’)’ from dual; >> oracl
+ select rtrim(‘oracleee’,’e’) from dual; >> oracl
+ select rtrim(‘500000’,’0’) from dual; >> 5
+ select rtrim(‘oracle ‘) from dual; >> oracle ( boşluqlar silindi)
+
+11.ltrim(text_argument1, text_argument2) – text_argument1-in əvvəlindən
+text_argument2-ni silir.Text_argument2 qeyd edilmədikdə əvvəldəki boşluqları silir.
+Nümunə:
+ select ltrim(‘oracle’,’o’)’ from dual; >>racle
+ select ltrim(‘oracle’,’ora’) from dual; >> cle
+ select ltrim(‘55000’,’5’) from dual; >> 000
+ select ltrim(‘ oracle‘) from dual; >> oracle ( boşluqlar silindi)
+
+12.trim(text_argument1, text_argument2) – text_argument1-in əvvəlindən və
+sonundan text_argument2-ni silir.text_argument2 qeyd edilmədikdə əvvəldən və
+sondan boşluqları silir.
+Nümunə:
+ select ltrim(‘alabama’, ‘a’) from dual; >>labama
+ select rtrim (‘alabama’, ‘a’) from dual; >> alabam
+ select trim(‘ alabama ’) from dual; >> alabama
+trim(both|leading|trailing ‘trim_argument’ from text_argument) – text_argument1-
+in əvvəlindən ( leading) , sonundan ( leading) və ya həm əvvəlindən həm də
+sonundan ( both) trim_argumenti silir. 1-ci arqument qeyd edilmədikdə both
+götürülür, yəni trim_argumenti həm əvvəldən həm də sondan silir. trim_argument
+qeyd edilmədikdə boşluqları silir.
+Nümunə:
+ select trim(leading ‘a’ from ‘alabama’) from dual; >>labama
+ select trim (trailing ‘a’ from ‘alabama’) from dual; >> alabam
+ select trim(both ‘a’ from ‘alabama’) from dual; >> labam
+ select trim(‘a’ from ‘alabama’) from dual; >>labam
+ select trim(‘ alabama ’) from dual; >>alabama
+13.replace(text_argument,replace_string,replace_with) – text_argument-dəki
+replace_String hissəsini replace_with ilə əvəz edir. replace_with verilmədikdə boşluq
+ilə əvəz edilir.
+Nümunə:
+ select replace(‘oracle’,’r’,’d’) from dual; >>odacle
+ select replace(‘oracle’,’le’,’la’) from dual; >> oracla
+ select replace(‘oracle’,’r’) from dual; >> oacle
+
+14.translate(text_argument,translate_string,translate_with) – text_argument-dəki
+translate_string-in hər bir simvolunu translate_with-dəki uyğun simvolla əvəz edir.
+Nümunə:
+ select translate(‘alabama’, ‘la’,’ku’) from dual; >>ukubumu
+ select translate(‘123abc321’,’123’,’789’) from dual; >> 789abc987
+
+15.reverse(text_argument) – verilmiş mətni tərsinə çevirir.
+Nümunə:
+ select reverse(‘oracle’) from dual; >> elcaro
+
+NUMBER functions
+Rəqəm tipi ilə işləyən funksiyalar
+1. Round(number_arqument1, number_arqument2 ) – Yuvarlaqlaşdırma
+funksiyası ən çox 2 arqument qəbul edir.
+1-ci arqument funksiyanın tətbiq olunduğu sütunu göstərir.
+2-ci arqument isə yuvarlaqlaşdırmanın neçə onluğa qədər olduğunu göstərir.
+2-ci arqument müsbət olduqda kəsr hissədə,mənfi olduqda isə tam hissədə
+yuvarlaqlaşma gedir.
+2-ci arqumentin default qiyməti 0-dır
+ select round(2231.38, 0) from dual;– >> 2231
+ select round(2231.68, 0) from dual;– >> 2232
+ select round(2231.68) from dual;- >> 2232
+
+ select round(2231.68, 1) from dual;- >> 2231.7
+ select round(2231.674764, 3) from dual;- >> 2231.675
+ select round(2231.674264, 3) from dual; >> 2231.674
+ select round(2261.67, -1) from dual; >> 2260
+-1 olduğu üçün nöqtədən 1 vahid sola doğru yuvarlaqlaşdırır.
+ select round(2261.67, -2) from dual; >> 2300
+-2 olduğu üçün nöqtədən 1 vahid sola doğru yuvarlaqlaşdırır.
+ select round(43.455, -1) from dual; >> 40
+ select round(46.923, -1) from dual; >> 50
+
+—
+2.Trunc(number_arqument1, number_arqument2) – Alt mərtəbəyə
+yuvarlaqlaşdırma funksiyasıdır.Ən çox 2 arqument qəbul edir.
+1-ci arqument funksiyanın tətbiq olunduğu sütunu göstərir.
+2-ci arqument isə yuvarlaqlaşdırmanın neçə onluğa qədər olduğunu göstərir.
+Daxil edilən 1 -ci arqument i,2-ci arqumentin qiyməti qədər aşağı onluğa
+yuvarlaqlaşdırır.
+2-ci arqument müsbət olduqda kəsr hissədə,mənfi olduqda isə tam hissədə
+yuvarlaqlaşma gedir.
+2-ci arqumentin default qiyməti 0-dır.
+ select trunc(2231.37, 0) from dual; >> 2231
+ select trunc(2231.67, 0) from dual; >> 2231
+ select trunc(2231.67) from dual; >> 2231
+ select trunc(2231.67, 1) from dual; >> 2231.6
+
+ select trunc(2231.674564, 3) from dual; >> 2231.674
+ select trunc(2268.67, -1) from dual; >> 2260
+ select trunc(2268.67, -2) from dual; >> 2200
+
+3. Floor(number_arqument ) – bir aşağı ədədə yuvarlaqlaşdırır.1 arqument i olur.
+ select floor(234.73) from dual; >> 234
+4. Ceil(number_arqument ) bir yuxarı ədədə yuvarlaqlaşdırır.1 arqument i olur.
+ select ceil(234.23) from dual; >> 235
+
+5. Mod(number_arqument1, number_arqument2) – funksiyası qalıq tapmaq
+üçün istifadə olunur.2 arqument i olur.
+1-ci arqument i bölünən,2-ci arqument i böləndir.
+
+ select mod(10,3) from dual; — 10/3 =3(1)
+ select mod(15,4) from dual; — 15/4 =3(3)
+
+ select employee_id as “Odd”,
+last_name
+from employees
+where mod(employee_id, 2) = 1;
+
+ select employee_id as “Even”,
+last_name
+from employees
+where mod(employee_id, 2) = 0;
+
+6.Abs(number_arqument ) – funksiyası bir ədədin mütləq qiymətini almaq üçün
+istifadə olunur.
+Yəni bir ədədin işarəsiz dəyəridir(Məsafə kimi başa düşülür)
+ select abs(-50) from dual; >> 50
+ select abs(50) from dual; >> 50
+7. Greatest(number_arqument ) – Daxil olunan arqument lər çoxluğundan ən
+böyük qiyməti qaytarır.
+ select greatest(5, 10) from dual; >> 10
+ select greatest(5, 10, 3) from dual; >> 10
+
+8.Least(number_arqument ) – Daxil olunan arqument lər çoxluğundan ən kiçik
+qiyməti qaytarır
+ select least(5, 10, 3) from dual; >> 3
+
+ select
+
+first_name,
+last_name,
+length(first_name),
+length(last_name),
+greatest(length(first_name), length(last_name))
+from employees;
+Datatype conversion
+Məlumat tipinin dəyişdililməsi funksiyaları
+
+1. To_char funksiyasının tarix tipinə tətbiqi
+To_char(date_argument, format_model) – tarix tipli məlumatı müxtəlif
+formatlarda.
+Format modellər
+1.yyyy- ilin rəqəmlərlə ifadəsi ( məsələn, 2022)
+2. year – ilin sözlərlə ifadəsi (twent –twenty two)
+3. mm – ayın ikirəqəmli ifadəsi ( oktyabrr 10)
+4. month – ayın bütöv adı (məsələn, october)
+5. mon – ayın adının 3 hərfli abreviaturası (məsələn oct)
+6. dy – həftənin gününün adının 3 hərli abreviaturası ( məsələn, fri,sun)
+7. day – həftənin gününün bütöv adı ( məsələn, Sunday)
+8. dd – ayın gününün rəqəmli ifadəsi (məsələn, 15,23)
+9. hh12 – 12 saatlıq format
+10.hh24- 24 saatlıq format
+
+11.MI – dəqiqə ( 0-59)
+12 ss – saniyə (0-59)
+
+2. To_char funksiyasının rəqəm tipinə tətbiqi
+To_char(number_argument,format_model) – rəqəm tipli arqument i müxtəlif
+formatlı mətn tipinə çevirir.
+Nümunə:
+ select to_char(1000.45, ‘$9,999.00’) from dual; >> $1,000.45
+Format modellər:
+1. 9 – rəqəmi ifadə edir
+2. 0 – sıfrı ifadə edir
+3. $ – dollar simvolu
+4. D – kəsri hissəni ayırır (İngilis formatında default qiyməti: . )
+5. G – minlik qruplarını ayırır (İngilis formatında default qiyməti: , )
+6. L –valyuta simvolu
+
+3. to_date(text_argument, format_model) – verilmiş mətn tipli arqument i tarix
+tipinə çevirir.
+Format modeller : to_char with dates format modellerinə bax.
+Nümunə:
+ select to_date(‘2022/10/25’,’yyyy/mm/dd’) from dual;>> tarix tipində məlumat
+qaytarır.
+
+4. to_number(text_argument,format_model) – mətn tipli məlumatı rəqəm tipinə
+çevirir.
+Format modellər : to_char with numbers, format modellərə bax.
+Nümunə:
+ select to_number(‘$500′,’$999’) from dual;>> 500
+
+NULL FUNCTIONS
+
+1.Nvl(arqument1,arqument2) – funksiyası 2 arqument qəbul edir.Tətbiq olunan
+sütunda əgər null dəyərlər varsa, funksiyanın 2-ci parametri nəticədə qayıdır,null
+deyilsə elə 1-ci arqument qayıdır.
+1-ci arqument funksiyanın tətbiq olunduğu sütunu bildirir.
+2-ci arqument isə 1-ci parametrin dəyəri null olduğu halda qayıdır.
+2-ci parametrin tipi 1-ci parametrə çevrilə bilən olmalıdır (1-ci number,2-ci varchar
+olsa onda error qayıdacaq).
+
+ select nvl(null,’1′) from dual; >> 1
+ select nvl(”,’1′) from dual; >> 1
+ select nvl(‘sql’,’2′) from dual; >> sql
+ select commission_pct, nvl(commission_pct, 0) from employees;
+
+Commission_pct sütunundakı dəyər null-dursa 0 qaytaracaq,deyilsə elə
+commission_pct-nin özünü qaytaracaq.
+
+ select
+commission_pct,
+
+nvl(commission_pct, ‘ ‘) — ikinci arqument number-e çevrilə bilmir, ona göre Error-
+dur
+
+from employees;
+
+ select
+commission_pct,
+nvl(commission_pct, ’11’) — ikinci arqument char olsa da number-ye çevrilə bilir,
+ona göre OK-dir
+from employees;
+
+ select
+department_name,
+nvl(department_name, department_id) — OK-dir
+from departments;
+
+ select
+
+department_name,
+nvl(department_id, department_name) — Error-dur
+from departments;
+
+2. Coalesce(arqument1,arqument2......arqumentN) – 2 və daha çox arqument
+qəbul edə bilir.
+Bu funksiya arqumentlər arasında, əvvəldən sonra məntiqi ilə rast gəldiyi ilk null
+olmayan dəyəri qaytarır.
+Əgər bütün parametrlər null olsa nəticə null olacaq.
+Bütün parametrlərin tipi eyni olmalıdır.
+
+ select coalesce(1, null, 2, null, 3, 4, 5) from dual; >> 1
+ select coalesce(null, null, 2, null, 3, 4, 5) from dual; >> 2
+ select coalesce(null, null, null, null, 3, 4, null) from dual; >> 3
+
+ select
+commission_pct,
+
+coalesce(commission_pct, ‘ ‘) — paramerlərin datatype-lari fərqlidir, ona görə Error-
+dur
+
+from employees;
+
+ select
+commission_pct,
+coalesce(commission_pct, ’11’) — paramerlərin datatype-lari fərqlidir, ona görə
+Error-dur
+from employees;
+
+ select
+department_name,
+coalesce(department_name, department_id) — error
+from departments;
+
+ select
+department_name,
+coalesce(department_name, to_char(department_id)) /*düzgündür, çünki 2-ci
+parametrə to_char funksiyası tətbiq edilərək char-a çevrildi.*/
+from hr.departments;
+
+3.Nvl2(arqument1,arqument2, arqument3) – funksiyası 3 arqument qəbul edir.
+Əgər 1-ci paramerin dəyəri null deyilsə ,2-ci parametrin dəyəri qayıdır.
+Əgər 1-ci parametrin dəyəri null olarsa 3-cü parametrin dəyəri qayıdır.
+Hər zaman 3-cü arqumentin tipini 2-ci arqumentin tipinə çevirməyə çalışır.
+
+ select nvl2(‘Burda null olmayan qiymet var’,’A’,’B’) from dual; >> A
+
+ select
+commission_pct,
+nvl2(commission_pct,’var’, ‘yoxdur’) /*commission_pct null olmasa ‘var’,null
+olsa ‘yoxdur’ qayıdacaq nəticədə*/
+from employees;
+
+ select
+commission_pct,
+nvl2(commission_pct, 1, 0)—commission_pct null olmasa 1 ,null olsa 0 qayıdacaq
+nəticədə
+from employees;
+
+4. Nullif(arqument1, arqument2) – funksiyası 2 arqument qəbul edir.
+2 parametrin bərabər olub olmamasını yoxlayır.Bərabərdirsə null,deyilsə 1- ci
+parametri qaytarır.
+ select nullif(5,4) from dual >> 5
+ select nullif(‘a’,’a’) from dual >> null
+
+ select
+length(last_name),
+length(first_name),
+nullif(length(last_name),length(first_name))
+from employees;
+
+ select nullif(1,2), nullif(2,1), nullif(1,1) from dual;
+
+IF THEN ELSE məntiqi ilə işləyən funksiyalar
+
+1. Simple Case. Case-də yazılan dəyər when-də yazılan dəyərlər ilə müqayisə
+olunur.Müqayisə yuxarıdan aşağı gedir.
+Əgər hansısa when shərti ödənilirsə artıq həmin sətir üçün end blokuna keçid
+olunur,yəni digər when -lərin yoxlanması dayandırılır.
+Simple case yalnız bərabərlik şərtinin yoxlanılması
+üçündür(‘<‘,’>’,'<=’,’>=’,’!=’,’like’,’not like’ ,’in’,’not in’ olmaz)
+Heç bir şərt ödənmədikdə else operatoruna keçid olunur. Heç bir şərt ödənmirsə və
+else də qeyd olunmayıbsa,həmin sətir üçün dəyər null olacaq.
+
+ select last_name, job_id,
+case job_id
+when ‘SA_REP’ then ‘Reporter’
+when ‘IT_PROG’ then ‘Programmer’
+when ‘SA_MAN’ then ‘Manager’
+end AS “Prof”
+from employees;
+
+ select last_name, job_id,
+case job_id
+when ‘SA_REP’ then ‘Reporter’
+when ‘IT_PROG’ then ‘Programmer’
+when ‘SA_MAN’ then ‘Manager’
+else ‘Other’
+end AS “Prof”
+from employees;
+
+2. Search Case – Hər sətir üçün when-də yazılan şərtlər yuxarıdan aşağı yoxlanılır
+
+Əgər hansısa when shərti ödənilirsə artıq həmin sətir üçün end blokuna keçid
+olunur,yəni digər when -lərin yoxlanması dayandırılır.
+Heç bir şərt ödənmədikdə else operatoruna keçid olunur. Heç bir şərt ödənmirsə və
+else də qeyd olunmayıbsa,həmin sətir üçün dəyər null olacaq.
+
+ select last_name, department_id, job_id,
+case
+when department_id = 50 then JOB_ID
+when job_id like ‘SA%’ then ‘SA-XXXXXXX’
+when job_id like ‘%PROG’ then ‘Programmer’
+else ‘Other’
+end as “Prof”
+from employees;
+
+3. Decode(arqument1, arqument2, ... arqumentN) – Funksiyası simple case-in
+kompaktlaşmış formasıdır.
+Aşağıdakı nümunədə Job_id sütununa baxırıq.
+Əgər job_id=’SA_REP’ olsa onda ‘Reporter’ yazılacaq.
+Yox əgər job_id=’IT_PROG’ olsa onda ‘Programmer’ yazılacaq.
+Yox əgər job_id=’SA_MAN’ olsa onda ,’Manager’ yazılacaq.
+Bunların heç biri olmasa onda ‘Other’ yazılacaq.
+ select last_name, job_id,
+
+decode(job_id,
+‘SA_REP’ ,’Reporter’,
+‘IT_PROG’ ,’Programmer’,
+‘SA_MAN’ ,’Manager’,
+‘Other’) AS “Prof-Decode”
+from employees;
+
+Else halı decode-da qeyd olunmasa null qaytarır.
+
+ select last_name, job_id,
+decode(job_id,
+‘SA_REP’ ,’Reporter’,
+‘IT_PROG’ ,’Programmer’,
+‘SA_MAN’ ,’Manager’
+)
+AS “Prof-Decode”
+from employees;

@@ -1,0 +1,75 @@
+/*1.Employees cədvəlindən employee_id-si 
+cüt ədəd olan işçiləri tapan sorğu yazın.*/
+select *
+from hr.employees
+where mod(employee_id,2)=0;
+/*2. Employees cədvəlindən bir günə düşən 
+maaşın ( salary sütunu aylıq maaşı bildirir) yuvarlaşma üsulu ilə
+kəsrdə maksimum 2 ədəd olmaqla çıxarın.*/
+select round(salary/30,2)
+from hr.employees;
+
+/*3.Employees cədvəlindən soyadında 
+5-dən çox simvol sayı olan işçilərin məlumatlarını çıxarın.*/
+select *
+from hr.employees 
+where length(last_name)>5;
+
+/*4. Locations cədvəlində address sütununda 3-cü simvoldan başlayaraq rast gəlinən 2-ci ‘a’
+hərfinin yerini (position) göstərən sql yazın.*/
+select street_address,instr(street_address,'a',3,2)
+from hr.locations;
+
+/*5. Employees cədvəlində ad və soyadı birləşdirdikdən sonra çatışmayan simvollar əvəzinə `*`
+işarəsi qoymaqla ümumi uzunluğu 30-a bərabər olan sütun çıxaran sql yazın. (`*` işarələri
+sağda və yaxud solda ola bilər).*/
+select lpad(concat(first_name,last_name),30,'*')
+from hr.employees 
+
+
+/*6. Countries cədvəlində country_name sütunda a hərflərini b və b herflerini a ilə əvəz etmeklə
+Çixarin*/
+
+select country_name,translate(country_name,'AaBb','BbAa')
+from hr.countries
+
+/*7. Employees cədvəlindən hər bir işçinin email şifrəsini
+aşağıdakı kimi təyin edən sorğu yazın.
+Email belə təyin olunur:
+Adının ilk hərfi + soyadının son 3 hərfi + telefon nömrəsinin ilk 3 simvolu.*/
+
+select substr(first_name,1,1)||substr(last_name,-3,3)||substr(phone_number,1,3)
+from hr.employees;
+
+/*8. Locations: bütün sətrlərin street_address 
+sütunundakı boşluğa nəzərən ilk hissəni tapin.*/
+
+select street_address,
+       substr(street_address,1,instr(street_address,' ',1,1)-1)
+from hr.locations;
+
+/*9. Employees cədvəlindən email sütununun yalnız ilk hərfi böyük olmaqla çıxarın.*/
+
+select email, initcap(email)
+from hr.employees;
+
+/*10. Employees cədvəlindən phone_number 
+sütununda 2-ci nöqtənin pozisiyasını tapan sorğu yazın.*/
+
+select instr(phone_number,'.',1,2)
+from hr.employees;
+
+/*11. Adında cüt sayda simvol olan işçilərin 
+ad və soyadını birləşdirib ( funksiya ilə) çıxaran sorğu yazın.*/
+
+select concat(first_name,last_name)
+from hr.employees 
+where mod(length(first_name),2)=0;
+
+/*12. Locations cədvəlində 
+hər bir street_address-də neçə rəqəm olduğunu tapan sorğu yazın.*/
+
+select street_address,
+       length(street_Address)-
+       length(translate(street_address,'#0123456789','#'))
+from hr.locations;
